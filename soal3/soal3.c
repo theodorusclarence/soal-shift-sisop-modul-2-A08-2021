@@ -44,6 +44,7 @@ int main(int argc, char **argv) {
   close(STDERR_FILENO);
   //! /BOILER PLATE DAEMON
 
+  //! KILLER PROGRAM
   FILE *killer;
   killer = fopen("Killer", "w");
 
@@ -65,13 +66,13 @@ int main(int argc, char **argv) {
   fclose(killer);
 
   pid_t child_chmod;
-
   child_chmod = fork();
 
   if (child_chmod == 0) {
     char *argv[] = {"chmod", "+x", "Killer", NULL};
     execv("/usr/bin/chmod", argv);
   }
+  //! KILLER PROGRAM
 
   while (1) {
     pid_t child_id;
@@ -106,6 +107,7 @@ int main(int argc, char **argv) {
         // DOWNLOAD FILE
         for (int i = 0; i < 10; i++) {
           getTime(imgFile);
+          // folder utama/imgFile
           sprintf(namaFile, "%s/%s.jpg", parentDir, imgFile);
 
           long int imageSize = time(NULL) % 1000 + 50;
@@ -148,8 +150,6 @@ int main(int argc, char **argv) {
           char outputZip[300];
           sprintf(outputZip, "%s.zip", parentDir);
 
-          printf("%s, %s\n", outputZip, parentDir);
-
           char *argv[] = {"zip", "-r", outputZip, parentDir, NULL};
           execv("/usr/bin/zip", argv);
         } else {
@@ -185,29 +185,29 @@ void getTime(char *string) {
 }
 
 // Rewrites the inputted string to ciphered one
-void cipher(char *message) {
-  char ch;
+void cipher(char *successMsg) {
+  char character;
   int key = 5;
 
-  for (int i = 0; message[i] != '\0'; ++i) {
-    ch = message[i];
+  for (int i = 0; successMsg[i] != '\0'; ++i) {
+    character = successMsg[i];
 
-    if (ch >= 'a' && ch <= 'z') {
-      ch = ch + key;
+    if (character >= 'a' && character <= 'z') {
+      character = character + key;
 
-      if (ch > 'z') {
-        ch = ch - 'z' + 'a' - 1;
+      if (character > 'z') {
+        character = character - 'z' + 'a' - 1;
       }
 
-      message[i] = ch;
-    } else if (ch >= 'A' && ch <= 'Z') {
-      ch = ch + key;
+      successMsg[i] = character;
+    } else if (character >= 'A' && character <= 'Z') {
+      character = character + key;
 
-      if (ch > 'Z') {
-        ch = ch - 'Z' + 'A' - 1;
+      if (character > 'Z') {
+        character = character - 'Z' + 'A' - 1;
       }
 
-      message[i] = ch;
+      successMsg[i] = character;
     }
   }
 }

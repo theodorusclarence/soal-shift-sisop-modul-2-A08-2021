@@ -145,6 +145,7 @@ void reusable(char *link, char *folderName, char *downloadName) {
 
     // TODO Download zip
     if (child_id2 == 0) {
+      // Musyik/Download.zip
       char downloadLoc[200];
       sprintf(downloadLoc, "%s/Download.zip", folderName);
 
@@ -163,6 +164,7 @@ void reusable(char *link, char *folderName, char *downloadName) {
         // TODO Uncompress
         chdir(baseFolder);
         // unzip quietly
+        // Unzip to Musyik/MUSIK/*.mp3
         char *argv[] = {"unzip", "-q", "Download.zip", NULL};
         execv("/usr/bin/unzip", argv);
 
@@ -177,6 +179,9 @@ void reusable(char *link, char *folderName, char *downloadName) {
           // TODO Move file
           chdir(filesFolder);
           // Move files in MUSIK to back 1 level
+          // From Musyik/MUSIK/*.mp3
+          // To Musyik/*.mp3
+          // Musyik/|remove|MUSIK/*.mp3
           char *argv[] = {"cp", "-r", ".", "..", NULL};
           execv("/usr/bin/cp", argv);
         } else {

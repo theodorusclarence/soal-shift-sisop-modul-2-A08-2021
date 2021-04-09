@@ -42,6 +42,7 @@ int main(int argc, char **argv) {
       // use later for copying files.)
       char filesUntouched[70];
       strcpy(filesUntouched, files[i]);
+
       // REMOVE 4 character from files (.jpg)
       files[i][strlen(files[i]) - 4] = '\0';
 
@@ -50,6 +51,9 @@ int main(int argc, char **argv) {
       char **individualPets = NULL;
 
       c = dtmsplit(files[i], "_", &individualPets, &countTok);
+      // From dog;cooper;2_cat;simba;4
+      // To individualpets[0] = dog;cooper;2
+      //    individualpets[1] = cat;simba;4
 
       for (int j = 0; j < countTok; j++) {
         int d = 0;
