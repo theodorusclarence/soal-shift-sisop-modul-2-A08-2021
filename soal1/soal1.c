@@ -11,15 +11,6 @@
 #include <unistd.h>
 
 int main() {
-  char folderName[] = "Musyik";
-  char downloadName[] = "MUSIK/";
-  char baseFolder[200] =
-      "/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1/";
-  strcat(baseFolder, folderName);
-
-  // Store downloaded files
-  // "/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1/Musyik"
-  char filesFolder[300];
-  sprintf(filesFolder, "%s/%s", baseFolder, downloadName);
-  puts(filesFolder);
+  char *argv[] = {":", NULL};
+  execv("", argv);
 }

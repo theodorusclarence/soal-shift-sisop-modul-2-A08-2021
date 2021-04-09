@@ -11,8 +11,81 @@
 #include <unistd.h>
 
 void musik(char *link, char *folderName, char *downloadName);
+void runBuildFolder();
+void zipAndDestroy();
+void getTime(char *string);
 
 int main() {
+  //! BOILER PLATE DAEMON
+  pid_t pid, sid;
+  pid = fork();
+  if (pid < 0) {
+    exit(EXIT_FAILURE);
+  }
+  if (pid > 0) {
+    exit(EXIT_SUCCESS);
+  }
+  umask(0);
+  sid = setsid();
+  if (sid < 0) {
+    exit(EXIT_FAILURE);
+  }
+  if ((chdir("/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1")) < 0) {
+    exit(EXIT_FAILURE);
+  }
+  close(STDIN_FILENO);
+  close(STDOUT_FILENO);
+  close(STDERR_FILENO);
+  //! /BOILER PLATE DAEMON
+
+  while (1) {
+    char time[50];
+    getTime(time);
+
+    pid_t child_id;
+    int status;
+
+    child_id = fork();
+
+    // childnya ngerun, sampe mati di exec rm
+    if (child_id == 0) {
+      if (strcmp(time, "2021-04-09_16:22") == 0) {
+        // ! 6 JAM SEBELUM ULTAH STEVANY 😱
+        runBuildFolder();
+      } else if (strcmp(time, "2021-04-09_22:22") == 0) {
+        // ! ULTAH STEVANY 🥳
+        zipAndDestroy();
+      } else {
+        // ! do nothing
+        char *argv[] = {"echo", NULL};
+        execv("/usr/bin/echo", argv);
+      }
+    }
+
+    sleep(60);
+  }
+}
+
+void zipAndDestroy() {
+  pid_t child_q1;
+  int status_q1;
+
+  child_q1 = fork();
+
+  if (child_q1 == 0) {
+    char *argv[] = {"zip",    "-q", "Lopyu_Stevany.zip", "Fylm/", "Musyik/",
+                    "Pyoto/", NULL};
+    execv("/usr/bin/zip", argv);
+  } else {
+    while ((wait(&status_q1)) > 0)
+      ;
+
+    char *argv[] = {"rm", "-r", "Fylm/", "Musyik/", "Pyoto/", NULL};
+    execv("/usr/bin/rm", argv);
+  }
+}
+
+void runBuildFolder() {
   char fotoLink[] =
       "https://drive.google.com/"
       "uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download";
@@ -118,4 +191,19 @@ void musik(char *link, char *folderName, char *downloadName) {
       }
     }
   }
+}
+
+void getTime(char *string) {
+  time_t t;
+  struct tm *tmp;
+  char MY_TIME[50];
+  time(&t);
+
+  tmp = localtime(&t);
+
+  // using strftime to display time
+  strftime(MY_TIME, sizeof(MY_TIME), "%Y-%m-%d_%H:%M", tmp);
+
+  strcpy(string, MY_TIME);
+  return;
 }
