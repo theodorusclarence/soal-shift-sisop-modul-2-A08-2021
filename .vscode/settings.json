@@ -6,6 +6,7 @@
     "*.jsx": "javascriptreact",
     "*.blade.php": "html",
     "*.tpl": "html",
-    "wait.h": "c"
+    "wait.h": "c",
+    "stat.h": "c"
   }
 }
