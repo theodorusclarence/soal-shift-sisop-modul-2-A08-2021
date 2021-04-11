@@ -1,3 +1,8 @@
+## Referensi Nomor 2
+
+- save file listing into array https://stackoverflow.com/a/11291863
+- Split string with delimiters https://stackoverflow.com/a/9210560
+
 ## Referensi Nomor 3
 
 - Get Timestamp http://www.cplusplus.com/reference/ctime/localtime/
