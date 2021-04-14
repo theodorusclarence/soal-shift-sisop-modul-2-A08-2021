@@ -10,10 +10,7 @@
 #include <time.h>
 #include <unistd.h>
 
-// Foto https://drive.google.com/file/d/1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD/view
-// Musik https://drive.google.com/file/d/1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J/view
-// Film https://drive.google.com/file/d/1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp/view
-void musik(char *link);
+void musik(char *link, char *folderName, char *downloadName);
 
 int main() {
   char fotoLink[] =
@@ -26,16 +23,40 @@ int main() {
       "https://drive.google.com/"
       "uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download";
 
-  musik(musikLink);
+  pid_t child_q1, child_q2;
+  int status_q1, status_q2;
+
+  child_q1 = fork();
+
+  if (child_q1 == 0) {
+    musik(musikLink, "Musyik", "MUSIK/");
+  } else {
+    child_q2 = fork();
+
+    if (child_q2 == 0) {
+      musik(fotoLink, "Pyoto", "FOTO/");
+    } else {
+      musik(filmLink, "Fylm", "FILM/");
+    }
+  }
 }
 
-void musik(char *link) {
+void musik(char *link, char *folderName, char *downloadName) {
   pid_t child_id;
   int status;
 
-  child_id = fork();
+  // Store base folder
+  // "/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1/Musyik"
+  char baseFolder[200] =
+      "/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1/";
+  strcat(baseFolder, folderName);
 
-  char folderName[] = "Musyik";
+  // Store downloaded files
+  // "/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1/Musyik/MUSIK/"
+  char filesFolder[300];
+  sprintf(filesFolder, "%s/%s", baseFolder, downloadName);
+
+  child_id = fork();
 
   if (child_id == 0) {
     // Create Folder
@@ -67,7 +88,8 @@ void musik(char *link) {
 
       if (child_id3 == 0) {
         // TODO Uncompress
-        chdir("/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1/Musyik");
+        chdir(baseFolder);
+        // unzip quietly
         char *argv[] = {"unzip", "-q", "Download.zip", NULL};
         execv("/usr/bin/unzip", argv);
 
@@ -79,19 +101,18 @@ void musik(char *link) {
         child_id4 = fork();
 
         if (child_id4 == 0) {
-          // TODO Pindahin file
-          chdir(
-              "/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1/Musyik/"
-              "MUSIK");
+          // TODO Move file
+          chdir(filesFolder);
+          // Move files in MUSIK to back 1 level
           char *argv[] = {"cp", "-r", ".", "..", NULL};
           execv("/usr/bin/cp", argv);
         } else {
           while ((wait(&status4)) > 0)
             ;
-
-          chdir(
-              "/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1/Musyik/");
-          char *argv[] = {"rm", "-r", "MUSIK/", "Download.zip", NULL};
+          // TODO Remove unused files
+          chdir(baseFolder);
+          // remove downloaded folder (MUSIK/) and Download file (Download.zip)
+          char *argv[] = {"rm", "-r", downloadName, "Download.zip", NULL};
           execv("/usr/bin/rm", argv);
         }
       }

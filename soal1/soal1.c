@@ -11,7 +11,15 @@
 #include <unistd.h>
 
 int main() {
-  chdir("/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1/tes/MUSIK");
-  char *argv[] = {"cp", "-r", ".", "..", NULL};
-  execv("/usr/bin/cp", argv);
+  char folderName[] = "Musyik";
+  char downloadName[] = "MUSIK/";
+  char baseFolder[200] =
+      "/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1/";
+  strcat(baseFolder, folderName);
+
+  // Store downloaded files
+  // "/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1/Musyik"
+  char filesFolder[300];
+  sprintf(filesFolder, "%s/%s", baseFolder, downloadName);
+  puts(filesFolder);
 }
