@@ -1,3 +1,12 @@
+## Soal 1
+![soal1](./screenshots/soal1.png)
+#### Source Code 1a
+![1a](./screenshots/2a.png)
+
+#### Cara Pengerjaan
+
+#### Kendala
+
 ## Referensi Nomor 2
 
 - save file listing into array https://stackoverflow.com/a/11291863
