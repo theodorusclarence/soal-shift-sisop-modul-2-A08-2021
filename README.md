@@ -1,7 +1,9 @@
 # Soal 1
 ![soal1](./screenshots/soal1a1.png)
+![soal1](./screenshots/soal1(1).png)
 #### Cara Pengerjaan
-Pada soal kali ini kami menggunakan Plate Daemon dengan destinasi program pada `/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1`
+1. Pada soal kali ini kami menggunakan Plate Daemon dengan destinasi program pada `/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal1`
+2. Fungsi `getTime` yaitu untuk mendapatkan timeStamp dengan command `strftime(MY_TIME, sizeof(MY_TIME), "%Y-%m-%d_%H:%M:%S", tmp)` sehingga mendapatkan format tersebut.
 ##  Soal 1a
 ![soal1a](./screenshots/soal1a2.png)
 #### Cara Pengerjaan
@@ -31,11 +33,20 @@ Pada soal kali ini kami menggunakan Plate Daemon dengan destinasi program pada `
 3. Karena file tadi masih ada di folder `MUSIK` sehingga kita perlu untuk menghapus folder `MUSIK` beserta isinya dengan `char *argv[] = {"rm", "-r", downloadName, "Download.zip", NULL}`. serta menghapus `Download.zip` yang sebelumnya masih ada.
 
 ## Soal 1e
-![soal1e](./screenshots/soal1e.png)
+![soal1e1](./screenshots/soal1e1.png)
 #### Cara Pengerjaan
-1. Untuk melakukan semua proses dalam waktu bersamaan kami menggunakan `pid_t child_q1, child_q2` untuk membantu prosesnya multithread. 
-2. Dengan `child_q1 = fork()` bertujuan untuk spawn proses pertama. `if (child_q1 == 0) reusable(musikLink, "Musyik", "MUSIK/")` yaitu jika child_q1 = 0 maka proses  akan berjalan.
-3. Kemudian `else {child_q2 = fork()` lalu kemudian juga spawn proses kedua dengan variabel child_q2 untuk agar proses berjalan bersamaan. maka `(child_q2 == 0) {reusable(fotoLink, "Pyoto", "FOTO/")` maka proses kedua berjalan juga. dan `else {reusable(filmLink, "Fylm", "FILM/")` proses ketiga juga ikut berjalan pada saat bersamaan.
+1. Dengan menggunakan fungsi getTime kita dapat melakukan `if (child_id == 0) {if (strcmp(time, "2021-04-09_16:22:00") == 0)` sehingga pada saat 6 jam sebelum ULTAH kita melakukan command `runBuildFolder()` untuk melakukan fungsi proses yang dibutuhkan.
+![soal1e](./screenshots/soal1e.png)
+2. Untuk melakukan semua proses dalam waktu bersamaan kami menggunakan `pid_t child_q1, child_q2` untuk membantu prosesnya multithread. 
+3. Dengan `child_q1 = fork()` bertujuan untuk spawn proses pertama. `if (child_q1 == 0) reusable(musikLink, "Musyik", "MUSIK/")` yaitu jika child_q1 = 0 maka proses  akan berjalan.
+4. Kemudian `else {child_q2 = fork()` lalu kemudian juga spawn proses kedua dengan variabel child_q2 untuk agar proses berjalan bersamaan. maka `(child_q2 == 0) {reusable(fotoLink, "Pyoto", "FOTO/")` maka proses kedua berjalan juga. dan `else {reusable(filmLink, "Fylm", "FILM/")` proses ketiga juga ikut berjalan pada saat bersamaan.
+
+## Soal 1f
+![soal1f](./screenshots/soal1f.png)
+#### Cara Pengerjaan
+1. Jika sudah memasuki ULTAH `else if (strcmp(time,"2021-04-09_22:22:00") == 0) {zipAndDestroy()` yaitu dengan melakukan fungsi `zipAndDestroy`
+2. Pada proses ini, kami menggunakan `char *argv[] = {"zip",   "-r",      "-q",     "Lopyu_Stevany.zip","Fylm/", "Musyik/", "Pyoto/", NULL}` yang bertujuan `zip` yaitu untuk melakukan compress atau zip file, `-q` disini melakukan dengan quiet. `"Lopyu_Stevany.zip"` yaitu untuk label zip. Dan `"Fylm/", "Musyik/", "Pyoto/"` yaitu untuk source melakukan zip pada semua file di folder tersebut.
+3. Dan untuk menghapus file yang sudah dilakukan compress/zip yaitu dengan `char *argv[] = {"rm", "-r", "Fylm/", "Musyik/", "Pyoto/", NULL}` . command `rm` disini untuk menghapus file yang terdapat pada folder `Fylm/", "Musyik/", "Pyoto/"`. 
 
 ## Referensi Nomor 2
 
