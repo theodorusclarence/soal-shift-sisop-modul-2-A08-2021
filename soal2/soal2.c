@@ -131,9 +131,7 @@ void unzipAndCleanFiles() {
     while ((wait(&status_mkdir)) > 0)
       ;
     chdir("/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal2/files");
-    char *argv[] = {
-        "unzip",    "../pets.zip",         "*", "-x", "apex_cheats/*",
-        "musics/*", "unimportant_files/*", NULL};
+    char *argv[] = {"unzip", "../pets.zip", "*", NULL};
     execv("/usr/bin/unzip", argv);
   }
 }
@@ -220,6 +218,11 @@ size_t file_list(const char *path, char ***ls) {
   while (NULL != ep) {
     // omit . and .. in list dir
     if (!strcmp(ep->d_name, ".") == 0 && !strcmp(ep->d_name, "..") == 0) {
+      DIR *dir = opendir(ep->d_name);
+      if (dir) {
+        closedir(dir);
+        printf("folder,%s\n", ep->d_name);
+      }
       (*ls)[count++] = strdup(ep->d_name);
     }
     ep = readdir(dp);
