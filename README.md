@@ -1,7 +1,7 @@
 ## Soal 1
 ![soal1](./screenshots/soal1.png)
 #### Source Code 1a
-![1a](./screenshots/2a.png)
+![soal1a](./screenshots/soal1a.png)
 
 #### Cara Pengerjaan
 
