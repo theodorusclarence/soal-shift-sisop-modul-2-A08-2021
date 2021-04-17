@@ -218,12 +218,25 @@ size_t file_list(const char *path, char ***ls) {
   while (NULL != ep) {
     // omit . and .. in list dir
     if (!strcmp(ep->d_name, ".") == 0 && !strcmp(ep->d_name, "..") == 0) {
-      DIR *dir = opendir(ep->d_name);
-      if (dir) {
-        closedir(dir);
-        printf("folder,%s\n", ep->d_name);
+      char temp[100];
+      strcpy(temp, ep->d_name);
+      if (strcmp(strrchr(temp, '\0') - 4, ".jpg") == 0) {
+        // The String ends with ".avi"
+        (*ls)[count++] = strdup(ep->d_name);
+      } else {
+        // REMOVE DIR
+        pid_t child_rmdir;
+        int status_rmdir;
+
+        child_rmdir = fork();
+
+        if (child_rmdir == 0) {
+          char filedir[50] = "files/";
+          strcat(filedir, temp);
+          char *argv[] = {"rm", "-r", filedir, NULL};
+          execv("/usr/bin/rm", argv);
+        }
       }
-      (*ls)[count++] = strdup(ep->d_name);
     }
     ep = readdir(dp);
   }
