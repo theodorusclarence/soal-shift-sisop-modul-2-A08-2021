@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
     int i;
 
     count = file_list(
-        "/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal2/files", &files);
+        "/home/user/soal-shift-sisop-modul-2-A08-2021/soal2/files", &files);
     for (i = 0; i < count; i++) {
       // Copies the same files, because the original files will be mutated (to
       // use later for copying files.)
@@ -106,7 +106,7 @@ int main(int argc, char **argv) {
             writeLog(petAtr[0], petAtr[1], petAtr[2]);
 
             chdir(
-                "/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal2/"
+                "/home/user/soal-shift-sisop-modul-2-A08-2021/soal2/"
                 "files");
             char *argv[] = {"cp", fromFile, toFile, NULL};
             execv("/usr/bin/cp", argv);
@@ -130,7 +130,7 @@ void unzipAndCleanFiles() {
   } else {
     while ((wait(&status_mkdir)) > 0)
       ;
-    chdir("/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal2/files");
+    chdir("/home/user/soal-shift-sisop-modul-2-A08-2021/soal2/files");
     char *argv[] = {"unzip", "../pets.zip", "*", NULL};
     execv("/usr/bin/unzip", argv);
   }
@@ -157,7 +157,7 @@ void readFileAndDelimitUnderscore(char **pets, int *countPets) {
   int i;
 
   count = file_list(
-      "/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal2/files", &files);
+      "/home/user/soal-shift-sisop-modul-2-A08-2021/soal2/files", &files);
   for (i = 0; i < count; i++) {
     // printf("%s\n", files[i]);
     int c = 0;
