@@ -108,6 +108,36 @@ Hal ini dikarenakan di ssh, kami menggunakan command execv yaitu `/usr/bin/unzip
 ![Kendala2](/screenshots/kendala2.jpg)
 Hal ini masih belum diketahui kenapa muncul tulisan defunct seperti itu, kami sudah mencoba bertanya ke asisten penguji dan masih belum tahu kenapa demikian. Oleh karena itu kami menyelesaikan problem tersebut dengan alternatif menggunakan execv echo sehingga proses tergantikan dengan proses execv.
 
+# Soal 3
+Pada soal 3 kami tetap menggunakan boiler plate dari daemon dengan `chdir=/home/clarence/soal-shift-sisop-modul-2-A08-2021/soal3`
+## Soal 3a
+1. Tujuan dari soal 3a yaitu untuk membuat sebuah direktori setiap 40 detik dengan memanfaatkan timestamp dengan menggunakan fungsi `getTime` dari soal 1.
+2. Program ini melakukan store ke `parentDir` berupa fungsi dari `getTime` untuk mendapatkan timestamp sesaat program berjalan
+3. Dengan melakukan fork pada `child_id` kita dapat melakukan spawn proses sehingga kita dapat melakukan proses lain  secara paralel.
+4. lalu dengan melakukan fork lagi pada `child_id2` kita melakukan command `"mkdir", "-p", parentDir, NULL` yaitu membuat sebuah direktori dengan `parentDir` yaitu fungsi timestamp sehingga label direktori baru tersebut berupa timestamp saat itu. 
+
+## Soal 3b
+1. Dengan `while ((wait(&status2)) > 0)` yaitu setelah proses mkdir selesai kita melakukan proses  Download file dengan  `for (int i = 0; i < 10; i++)` yaitu melakukan download selama 10 kali dengan ` sleep(5)` yaitu jeda selama setiap 5 detik
+2. Dalam hal ini yang melakukan jeda hanya child proses `child_3` sehingga proses parent tetap berjalan.
+3. Pada proses `child_id3` kita memenggil fungsi `getTime` yang di store pada variabel `imgFile` lalu membuat direktori dengan format `sprintf(namaFile, "%s/%s.jpg", parentDir, imgFile)` yaitu folderUtama/ImgFile.jpg yaitu tetap timestamp/timestamp.jpg dengan melakukan looping setiap 5 detik. sehingga fungsi getTime `imgFile` selalu berubah.
+4. `imageSize = time(NULL) % 1000 + 50` ImageSize disini untuk mendapatkan Epoch Unix. lalu melakukan store link download dengan `snprintf(linkDownload, sizeof(linkDownload),"https://picsum.photos/%ld", imageSize)` yaitu melakukan download pada link dengan `%ld` sesuai dengan nilai Epoch Unix.
+5. Lalu untuk melakukan download kami melakukan fork `child_id3` yaitu setiap looping proses child tersebut akan melakukan download dengan `wget", "-q", "-O", namaFile, linkDownload, NULL` dan proses tersebut akan mati setelah download setiap 5 detik looping.
+
+## Soal 3c
+
+![soal3cipher](/screenshots/soal3_cipher.png)
+1. Setelah proses looping download selesai Dengan statusText yang berisi `"Download Success"` tetapi dengan fungsi `cipher` disini digunakan untuk merubah setiap huruf dengan menambah `key = 5` sehingga seperti huruf A menjadi F.
+2. Kemudian membuat `status.txt`, lalu dengan `FILE *statusFile = fopen(statustxtFileName, "w")` yaitu `fopen` disini yaitu membuka file status dan `w` dengan melakukan write pada status.txt dengan `fputs(statusText, statusFile)` yaitu mengisi dengan text berupa `Download Success` yang sudah dilakukan fungsi cipher pada statusFile.
+3. lalu dengan fork `child_id4` untuk zip folder dengan format `sprintf(outputZip, "%s.zip", parentDir)` yaitu berlabel timestamp pada saat zip. Dan untuk command `"zip", "-r", outputZip, parentDir, NULL` yaitu untuk melakukan zip `-r` disini agar isi file juga ikut di compress. dengan `outputZip` yaitu format sebelumnya. `parentDir` disini adalah folder yang akan dilakukan zip.
+4. setelah proses zip selesai. kita harus menghapus file yang sudah dizip dengan command `"rm", "-r", parentDir, NULL` yaitu menghapus semua file tersebut.
+5. Tujuan kami melakukan proses pada `else` yaitu agar proses parents tetap berjalan selama proses looping agar `sleep(40)` tepat sesuai yang diinginkan
+## Soal 3d
+![soal3Killer](/screenshots/soal3_Killer.png)
+1. Killer proses disini yaitu melakukan terminate proses dengan memanggil proses Killer tersebut. Dalam killer program tersebut terdapat 2 format yaitu `-z` dan `-x`. dan Command `killer = fopen("Killer", "w")` yaitu dengan membuat file killer dengan melakukan write. 
+3. pada format `-z` yaitu melakukan terminate parents proses dan semua child proses akan terhenti. sehingga menjadi state terakhir dan semua mati. Variabel `"killList=$(echo $(pidof ./soal3))\n"` yaitu untuk melakukan cek semua file yang pid nya soal3. lalu dengan `"kill -9 $killList\n` yaitu melakukan kill pada proses child yang terdapat pada variabel `killlist`. lalu `rm Killer` untuk menghapus file Killer tersebut.
+3. sedangkan pada pada format `-x` hanya melakukan terminate parents saja command `"kill %d\n"` yaitu hanya melakukan kill pada pid parent saja., sehingga proses child tetap berjalan hingga proses zip dan remove file. sehingga hanya menyelesaikan child terakhir yang di respawn.
+
+### Kendala
 ## Referensi Nomor 2
 
 - save file listing into array https://stackoverflow.com/a/11291863
