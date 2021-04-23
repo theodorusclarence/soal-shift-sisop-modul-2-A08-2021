@@ -56,11 +56,13 @@ Tujuan dari soal 2 ini adalah melakukan ekstrak pada file zip [pets.zip](https:/
 ## Soal 2a
 Pada soal 2a kita diminta untuk melakukan ekstrak file zip [pets.zip](https://drive.google.com/file/d/1g5rehatLEkqvuuK_eooHJXB57EfdnxVD/view?usp=sharing) namun yang diminta hanya file `.jpg` dan menghapus yang selainnya. Untuk itu kita melakukan pemanggilan function `unzipAndCleanFiles()` dan `file_list()`
 #### unzipAndCleanFiles()
+![soal2a_1](../screenshots/soal2a_1.png)
 1. Function ini digunakan untuk melakukan ekstraksi. Function dipanggil di dalam child process dengan pemanggilan `child_unzip = fork();`.
 2. Di dalam function `unzipAndCleanFiles()` dilakukan pemanggilan child proses `child_mkdir = fork();` untuk membuat folder files (agar lebih rapi saja). Di dalam child proses, dilakukan `execv("/usr/bin/mkdir", argv);` dengan argumen `char *argv[] = {"mkdir", "files", NULL};`.
 3. Selanjutnya pada parent proses dilakukan ekstrak `execv("/usr/bin/unzip", argv);` dengan argumen `char *argv[] = {"unzip", "../pets.zip", "*", NULL};`. Sebelum itu dilakukan perpindahan directory dengan `chdir("/home/[user]/soal-shift-sisop-modul-2-A08-2021/soal2/files");`.
 
 #### file_list()
+![soal2a_2](../screenshots/soal2a_2.png)
 1. Function ini untuk melakukan penyetoran list file ke dalam array sekaligus menghapus semua isi selain file `.png` serta function bertipe data `size_t`. Function kami ambil referensi dari [sini](https://stackoverflow.com/a/11291863).
 2. Function menerima argumen berupa directory `files` tadi dan `&files` bertipe `char` double pointer.
 3. Pada Function, directory diterima oleh parameter `path` dan dimasukkan ke variabel `dp`. Jika `dp` NULL maka dilakukan pengembalian tidak ada directory. Argument kedua merupakan pointer `files` yang diterima oleh variabel `ls`. Nantinya ls ini sebagai return parameter yang berisi list file pada directory `dp`.
@@ -69,6 +71,8 @@ Pada soal 2a kita diminta untuk melakukan ekstrak file zip [pets.zip](https://dr
 6. Pada kondisional kedua tersebut, pada cabang bernilai `True` melakukan penyetoran nama file `(*ls)[count++] = strdup(ep->d_name);`. Untuk cabang `False` melakukan penghapusan file atau folder.
 7. Implementasi penghapusan pada nomor 6 adalah menggunakan pemanggilan `child_rmdir = fork();` dengan proses `execv("/usr/bin/rm", {"rm", "-r", filedir, NULL});`.
 8. Terakhir dilakukan return value `count` serta didapatkan list file pada `files` yang direturn dari parameter.
+#### Hasil
+![soal2a_3](../screenshots/soal2a_3.png)
 
 ## Soal 2b
 Pada Soal 2b diminta untuk melakukan pembuatan folder tiap hewan. 
@@ -78,6 +82,12 @@ Pada Soal 2b diminta untuk melakukan pembuatan folder tiap hewan.
 4. Selanjuta tiap individu hewan dilakukan iterasi untuk diambil tiap nilai nama file dengan delimiter `;` (bila tidak gabungan, diiterasi sekali) atau dengan syntax `d = dtmsplit(temp, ";", &petAtr, &petAtrTok);`.Hasil pemisahan disimpan dalam variable `petAtr`. 
 5. Di dalam perulangan yang sama, dilakukan pemanggilan  `child_id_mkdir = fork();`. Pada child process dilakukan pembuatan folder dengan `execv("/usr/bin/mkdir", {"mkdir", "-p", petDir, NULL});` dengan nilai `petDir` adalah hasil dari `sprintf(petDir, "petshop/%s", petAtr[0]);`. `petAtr[0]` adalah data nama hewannya. tanda `-p` pada mkdir untuk membatalkan pembuatan folder bila nama folder sudah ada.
 
+![soal2b_1](../screenshots/soal2b_1.png)
+![soal2b_2](../screenshots/soal2b_2.png)
+
+#### Hasil
+![soal2b_3](../screenshots/soal2b_3.png)
+
 ## Soal 2c
 Pada soal 2c diminta untuk memasukkan file `jgp` tersebut ke folder yang sesuai dengan nama hewan.
 1. Untuk menyelesaikan permasalahn ini kita melanjutkan perulangan terakhir pada soal 2b. Setelah selesai pembuatan folder pada child process, dilanjutkan pemindahan file pada parent process.
@@ -85,9 +95,18 @@ Pada soal 2c diminta untuk memasukkan file `jgp` tersebut ke folder yang sesuai 
 3. Pertama dilakukan pemasukan nilai nama file ke variable temporary dengan `strcpy(filesUntouched, files[i]);`. Variable `filesUntouched` dimasukkan ke variable `fromFile` sebagai file asal dengan `sprintf(fromFile, "%s", filesUntouched);`. Adapun variable `toFile` sebagai destinasi file dengan `sprintf(toFile, "../petshop/%s/%s.jpg", petAtr[0], petAtr[1]);`. Kembali lagi, `petAtr[0]` adalah nama jeni hewan dan `petAtr[1]` adalah nama asli hewan tersebut.
 4. Terakhir, kita lakukan copy file dengan `execv("/usr/bin/cp", {"cp", fromFile, toFile, NULL});`
 
+![soal2c_1](../screenshots/soal2c_1.png)
+
+#### Hasil
+![soal2c_2](../screenshots/soal2c_2.png)
+
 ## Soal 2d
 Pada soal 2d diminta untuk memisahkan 1 foto yang sama yang memiliki 2 hewan berbeda, namun nama file menyesuaikan pada folder mana dia dimasukkan.
 1. Hal ini sudah teratasi karena pada iterasi sebelumnya, yaitu `for (int j = 0; j < countTok; j++)` sudah menghimpun 2 hewan berbeda dalam satu file yang sama.
+
+#### Hasil
+![soal2d_1](../screenshots/soal2d_1.png)
+![soal2d_2](../screenshots/soal2d_2.png)
 
 ## Soal 2e
 Pada soal 2e kita diminta untuk membuat file `keterangan.txt` berisi data informasi hewan tiap folder.
@@ -98,6 +117,10 @@ Pada soal 2e kita diminta untuk membuat file `keterangan.txt` berisi data inform
 5. Pembukaan file dengan parameter `a` agar dapat ditambahkan di bawahnya bila ada penambahan atau append. Syntaxnya adalah `keteranganFile = fopen(keteranganLoc, "a");`
 6. Selanjutnya ditulis dengan `fprintf(keteranganFile, "%s", templatePrint);`
 7. Lalu terakhir ditutup dengan `fclose(keteranganFile);`
+
+![soal2e_1](../screenshots/soal2e_1.png)
+#### Hasil
+![soal2e_2](../screenshots/soal2e_2.png)
 
 ## Kendala
 Dalam pengerjaan kami menemukan kendala yaitu yang pertama

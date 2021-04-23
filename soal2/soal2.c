@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
           // using -p, if parent folder not exist, will create it, and quiet if
           // there is error
           char *argv[] = {"mkdir", "-p", petDir, NULL};
-          execv("/usr/bin/mkdir", argv);
+          execv("/bin/mkdir", argv);
         } else {
           while ((wait(&status_mkdir)) > 0)
             ;
@@ -109,7 +109,7 @@ int main(int argc, char **argv) {
                 "/home/user/soal-shift-sisop-modul-2-A08-2021/soal2/"
                 "files");
             char *argv[] = {"cp", fromFile, toFile, NULL};
-            execv("/usr/bin/cp", argv);
+            execv("/bin/cp", argv);
           }
         }  // end else mkdir pet category
       }    // end looping each individual pets
@@ -126,7 +126,7 @@ void unzipAndCleanFiles() {
 
   if (child_mkdir == 0) {
     char *argv[] = {"mkdir", "files", NULL};
-    execv("/usr/bin/mkdir", argv);
+    execv("/bin/mkdir", argv);
   } else {
     while ((wait(&status_mkdir)) > 0)
       ;
@@ -234,7 +234,7 @@ size_t file_list(const char *path, char ***ls) {
           char filedir[50] = "files/";
           strcat(filedir, temp);
           char *argv[] = {"rm", "-r", filedir, NULL};
-          execv("/usr/bin/rm", argv);
+          execv("/bin/rm", argv);
         }
       }
     }
