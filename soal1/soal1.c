@@ -58,7 +58,7 @@ int main() {
       } else {
         // ! do nothing
         char *argv[] = {"echo", NULL};
-        execv("/usr/bin/echo", argv);
+        execv("/bin/echo", argv);
       }
     }
 
@@ -81,7 +81,7 @@ void zipAndDestroy() {
       ;
 
     char *argv[] = {"rm", "-r", "Fylm/", "Musyik/", "Pyoto/", NULL};
-    execv("/usr/bin/rm", argv);
+    execv("/bin/rm", argv);
   }
 }
 
@@ -134,7 +134,7 @@ void reusable(char *link, char *folderName, char *downloadName) {
   if (child_id == 0) {
     // Create Folder
     char *argv[] = {"mkdir", folderName, NULL};
-    execv("/usr/bin/mkdir", argv);
+    execv("/bin/mkdir", argv);
 
   } else {
     while ((wait(&status)) > 0)
@@ -183,7 +183,7 @@ void reusable(char *link, char *folderName, char *downloadName) {
           // To Musyik/*.mp3
           // Musyik/|remove|MUSIK/*.mp3
           char *argv[] = {"cp", "-r", ".", "..", NULL};
-          execv("/usr/bin/cp", argv);
+          execv("/bin/cp", argv);
         } else {
           while ((wait(&status4)) > 0)
             ;
@@ -191,7 +191,7 @@ void reusable(char *link, char *folderName, char *downloadName) {
           chdir(baseFolder);
           // remove downloaded folder (MUSIK/) and Download file (Download.zip)
           char *argv[] = {"rm", "-r", downloadName, "Download.zip", NULL};
-          execv("/usr/bin/rm", argv);
+          execv("/bin/rm", argv);
         }
       }
     }

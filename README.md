@@ -49,6 +49,10 @@
 2. Pada proses ini, kami menggunakan `char *argv[] = {"zip",   "-r",      "-q",     "Lopyu_Stevany.zip","Fylm/", "Musyik/", "Pyoto/", NULL}` yang bertujuan `zip` yaitu untuk melakukan compress atau zip file, `-q` sehingga melakukan fungsi unzip tanpa mengeprint lognya, dan `"Lopyu_Stevany.zip"` yaitu untuk label zip. Dan `"Fylm/", "Musyik/", "Pyoto/"` yaitu adalah folder" yang akan di zip.
 3. Untuk menghapus file yang sudah dilakukan compress/zip yaitu dengan `char *argv[] = {"rm", "-r", "Fylm/", "Musyik/", "Pyoto/", NULL}` . Command `rm -r` digunakan untuk menghapus folder beserta file `Fylm/", "Musyik/", "Pyoto/"`. 
 
+#### Hasil
+![soal1_hasil1](/screenshots/soal1_hasil1.png)
+![soal1_hasil2](/screenshots/soal1_hasil2.png)
+
 # Soal 2
 Tujuan dari soal 2 ini adalah melakukan ekstrak pada file zip [pets.zip](https://drive.google.com/file/d/1g5rehatLEkqvuuK_eooHJXB57EfdnxVD/view?usp=sharing) dengan kondisi tertentu. Implementasi dari soal ini, kami membutuhkan beberapa fungsi bantuan, di antaranya sebagai berikut
 ![soal2_1](/screenshots/soal2_1.png)
@@ -160,7 +164,10 @@ Pada soal 3 kami tetap menggunakan boiler plate dari daemon dengan `chdir=/home/
 3. pada format `-z` yaitu melakukan terminate parents proses dan semua child proses akan terhenti. sehingga menjadi state terakhir dan semua mati. Variabel `"killList=$(echo $(pidof ./soal3))\n"` yaitu untuk melakukan cek semua file yang pid nya soal3. lalu dengan `"kill -9 $killList\n` yaitu melakukan kill pada proses child yang terdapat pada variabel `killlist`. lalu `rm Killer` untuk menghapus file Killer tersebut.
 3. sedangkan pada pada format `-x` hanya melakukan terminate parents saja command `"kill %d\n"` yaitu hanya melakukan kill pada pid parent saja., sehingga proses child tetap berjalan hingga proses zip dan remove file. sehingga hanya menyelesaikan child terakhir yang di respawn.
 
-### Kendala
+#### Hasil
+![soal3_hasil1](/screenshots/soal3_hasil1.png)
+![soal3_hasil2](/screenshots/soal3_hasil2.png)
+
 ## Referensi Nomor 2
 
 - save file listing into array https://stackoverflow.com/a/11291863
